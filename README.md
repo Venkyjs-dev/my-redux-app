@@ -117,3 +117,81 @@ Reducer is the shopkeeper
 
 Overview
 ![Redux overview](./redux_overview.png)
+
+---
+
+### Actions
+
+- The only way your application can interact with the store.
+- Carry some information from your app to the redux store.
+- Plain Javascript objects
+- Have a 'type' propertry that describes something that happened in the application.
+- The 'type' property is typically defined as string constants.
+
+```
+const CAKE_ORDERED = "CAKE_ORDERED";
+
+function cakeOrdered(){
+
+    return {
+        type:CAKE_ORDERED,
+        quantity:1
+    }
+}
+```
+
+here, the object is action and the function is called action creator, which return the actio object.
+Action object contains action type, and it can have any other values, related information about particular action.
+
+### Reducers
+
+- Reducers specify how the app state changes in response to actions sent to the store.
+- Programatically, Reducer is normal javascript function which accepts state and actions as arguments.
+  - by using previous state and action, it will perform operations and return new state of the application.
+
+```
+const reducer = (state,action) =>{
+    switch(action.type){
+        case 'CAKE_ORDERED':
+            return {
+                noOfCakes:state.noOfCakes - 1
+            }
+        default:
+            return state;
+    }
+}
+```
+
+### Store
+
+- One Store for the entire applicatoin
+  Responsibility of store:
+- Holds application state.
+- Allows access to state via ** getState() ** method.
+- Allows state to be updated via ** dispatch(action) ** methods.
+- Registers lisnters via ** subscribe(listener) ** .
+- Handles unregisters of listeners via the function returned by ** subscribe(listener) ** .
+
+```
+// create store
+const store = createStore(reducer);
+
+// access state from store
+console.log("Initial state: ", store.getState());
+
+// subscribe to store, to dispatch any action
+const unsubscribe = store.subscribe(() => {
+  console.log("Updated state: ", store.getState());
+});
+
+// dispatch an actions, using action creators, which returns the action object
+store.dispatch(cakeOrdered());
+store.dispatch(cakeOrdered());
+store.dispatch(cakeOrdered());
+
+// unsubscribe to store, after this we can not dispatch an actions
+unsubscribe();
+
+// this dispatch won't work
+store.dispatch(cakeOrdered());
+```
