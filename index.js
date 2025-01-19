@@ -3,12 +3,20 @@ const redux = require("redux");
 const createStore = redux.createStore;
 
 const CAKE_ORDERED = "CAKE_ORDERED";
+const CAKE_RESTOCK = "CAKE_RESTOCK";
 
 // ACTION creator, it return the action object.
 function cakeOrdered() {
   return {
     type: CAKE_ORDERED,
-    quantity: 1,
+    payload: 1,
+  };
+}
+
+function cakeResock(qunatity) {
+  return {
+    type: CAKE_RESTOCK,
+    payload: qunatity,
   };
 }
 
@@ -18,10 +26,15 @@ const initialState = {
 };
 function reducer(state = initialState, action) {
   switch (action.type) {
-    case "CAKE_ORDERED":
+    case CAKE_ORDERED:
       return {
         ...state,
         noOfCakes: state.noOfCakes - 1,
+      };
+    case CAKE_RESTOCK:
+      return {
+        ...state,
+        noOfCakes: state.noOfCakes + action.payload,
       };
     default:
       return state;
@@ -45,9 +58,10 @@ const unsubscribe = store.subscribe(() => {
 store.dispatch(cakeOrdered());
 store.dispatch(cakeOrdered());
 store.dispatch(cakeOrdered());
+store.dispatch(cakeResock(10));
 
 // unsubscribe to store, after this we can not dispatch an actions
 unsubscribe();
 
-// this dispatch won't work
+// This dispatch won't work
 store.dispatch(cakeOrdered());
