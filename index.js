@@ -1,6 +1,7 @@
 console.log("from index.js -->");
 const redux = require("redux");
 const createStore = redux.createStore;
+const bindActionCreators = redux.bindActionCreators;
 
 const CAKE_ORDERED = "CAKE_ORDERED";
 const CAKE_RESTOCK = "CAKE_RESTOCK";
@@ -55,10 +56,17 @@ const unsubscribe = store.subscribe(() => {
 });
 
 // dispatch an actions, using action creators, which returns the action object
-store.dispatch(cakeOrdered());
-store.dispatch(cakeOrdered());
-store.dispatch(cakeOrdered());
-store.dispatch(cakeResock(10));
+// store.dispatch(cakeOrdered());
+// store.dispatch(cakeOrdered());
+// store.dispatch(cakeOrdered());
+// store.dispatch(cakeResock(10));
+
+// alternative to store.dispatch()
+const action = bindActionCreators({ cakeOrdered, cakeResock }, store.dispatch);
+action.cakeOrdered();
+action.cakeOrdered();
+action.cakeOrdered();
+action.cakeResock(10);
 
 // unsubscribe to store, after this we can not dispatch an actions
 unsubscribe();
