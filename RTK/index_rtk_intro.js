@@ -40,3 +40,9 @@ RTK: Makes Redux easier to learn and adopt by abstracting away the difficult par
 
 Switching to Redux Toolkit allows you to write cleaner, more maintainable, and modern Redux code while reducing the chances of errors.
 */
+
+/*
+1. Extra reducers: not understand this concept, refer this concept again.
+2. Asyn thunk in redux tookit --> pending
+
+*/
